@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Content - BookBank</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo {
+            font-size: 2rem;
+        }
+
+        .brand-name {
+            color: #4a5568;
+            font-size: 1.8rem;
+        }
+
+        .page-info {
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .class-subject {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .material-title {
+            color: #2d3748;
+            font-size: 1.3rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Toolbar - For NCTB Books */
+        .toolbar {
+            background: #f7fafc;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: none;
+        }
+
+        .toolbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .book-info {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* PDF Viewer Container */
+        .pdf-viewer-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            background: #f7fafc;
+        }
+
+        .viewer-actions {
+            background: #f7fafc;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .viewer-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .viewer-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        /* Study Content Container */
+        .content-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-height: 500px;
+            display: none;
+        }
+
+        /* Study Content Styles */
+        .chapter-title {
+            color: #2d3748;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-text {
+            margin-bottom: 1rem;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        .formula {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+            font-family: 'Cambria Math', serif;
+            font-size: 1.1rem;
+        }
+
+        .example {
+            background: #fff9e6;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #feca57;
+            margin: 1rem 0;
+        }
+
+        .example-title {
+            font-weight: 600;
+            color: #e67e22;
+            margin-bottom: 0.5rem;
+        }
+
+        .important {
+            background: #fff5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            margin: 1rem 0;
+        }
+
+        .important-title {
+            font-weight: 600;
+            color: #e53e3e;
+            margin-bottom: 0.5rem;
+        }
+
+        .question {
+            background: #f0fff4;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #48bb78;
+            margin: 1rem 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .solution {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #cbd5e0;
+        }
+
+        /* Alternative Message */
+        .alternative-message {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            margin: 2rem 0;
+            display: none;
+        }
+
+        .download-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .download-link:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        /* Experiment Cards */
+        .experiment-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0,0,0,0.8);
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .pdf-viewer {
+                height: 60vh;
+            }
+
+            .content-container {
+                padding: 1rem;
+            }
+
+            .chapter-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-header">
+                <a href="materials.html" class="back-btn">← Back to Materials</a>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="logo">📚</div>
+                    <h1 class="brand-name">BookBank</h1>
+                </div>
+                <div style="width: 80px;"></div>
+            </div>
+            <div class="page-info">
+                <div class="class-subject" id="classSubjectInfo">Class - Subject</div>
+                <div class="material-title" id="materialTitleInfo">Material Type</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Toolbar for NCTB Books -->
+    <div class="toolbar" id="pdfToolbar">
+        <div class="container">
+            <div class="toolbar-content">
+                <div class="book-info" id="bookInfo">
+                    Official NCTB Textbook
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" onclick="openInNewTab()">🔗 Open Directly</button>
+                    <button class="btn" onclick="downloadPDF()">📥 Download</button>
+                    <button class="btn" onclick="toggleFullscreen()">📺 Fullscreen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- PDF Viewer for NCTB Books -->
+            <div class="pdf-viewer-container" id="pdfViewerContainer">
+                <iframe class="pdf-viewer" id="pdfViewer" src="" frameborder="0">
+                    Your browser does not support iframes. Please use the download link below.
+                </iframe>
+                <div class="viewer-actions">
+                    <button class="viewer-btn" onclick="zoomIn()">🔍 Zoom In</button>
+                    <button class="viewer-btn" onclick="zoomOut()">🔍 Zoom Out</button>
+                    <button class="viewer-btn" onclick="resetZoom()">↺ Reset Zoom</button>
+                </div>
+            </div>
+
+            <!-- Study Content for our materials -->
+            <div class="content-container" id="studyContentContainer">
+                <div class="loading" id="loadingMessage">
+                    Loading study content...
+                </div>
+            </div>
+
+            <!-- Alternative Message -->
+            <div class="alternative-message" id="alternativeMessage">
+                <h3>📚 Textbook Access</h3>
+                <p>The NCTB textbook can be accessed directly from the official website:</p>
+                <a href="#" class="download-link" id="directDownloadLink" target="_blank">🌐 Visit NCTB Website</a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: #718096;">
+                    Note: Some textbooks may require download from the official NCTB portal.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 BookBank - Your Complete Study Companion</p>
+            <p id="footerNote"><small>Quality study materials and official textbooks in one place</small></p>
+        </div>
+    </footer>
+
+    <script>
+        // ============ CONFIGURATION ============
+        
+        // NCTB Textbook URLs
+        const nctbBooks = {
+            "1": {
+                "Mathematics": "https://drive.google.com/file/d/1sQ9gxdNIKpsBwvbCfOV0Ek6Xmjw90W9B/preview",
+                "Bangla": "https://drive.google.com/file/d/1XFeh1kDvWoBtYza8jft5cwrPVhEcseD5/preview",
+                "English": "https://drive.google.com/file/d/1fEi4o-cRb-uIuXb0YllOylOLwPKg9003/preview"
+            },
+            "2": {
+                "Mathematics": "https://drive.google.com/file/d/1-9weJt3CeJnHO1zKBJHDAe0sndJwsZqi/preview",
+                "Bangla": "https://drive.google.com/file/d/1VTG5E09kWhbMJGscXbbP0TUoxq_8DU64/preview",
+                "English": "https://drive.google.com/file/d/1ztZFaOwbguKEwqZs_lvuyXsmJgMoUMgk/preview"
+            },
+            "3": {
+                "Mathematics": "https://drive.google.com/file/d/1YvH0Hk8Jt8V9t6K5Q7b8wLmNpXqRz2Sx/preview",
+                "Bangla": "https://drive.google.com/file/d/1ZxW9cRtYuPvLmNpXqRz2SxYvH0Hk8Jt8/preview",
+                "English": "https://drive.google.com/file/d/1AbC2dEfGhIjKlMnOpQrStUvWxYzZaBcD/preview",
+                "Science": "https://drive.google.com/file/d/1DeF3gHiJkLmNoPqRsTuVwXyZAbCdEfGh/preview"
+            },
+            "4": {
+                "Mathematics": "https://drive.google.com/file/d/1IjKlMnOpQrStUvWxYzZaBcDeF3gHiJkL/preview",
+                "Bangla": "https://drive.google.com/file/d/1JkLmNoPqRsTuVwXyZAbCdEfGhIjKlMnO/preview",
+                "English": "https://drive.google.com/file/d/1LmNoPqRsTuVwXyZAbCdEfGhIjKlMnOpQ/preview",
+                "Science": "https://drive.google.com/file/d/1MnOpQrStUvWxYzZaBcDeF3gHiJkLmNoPq/preview",
+                "Social Science": "https://drive.google.com/file/d/1NoPqRsTuVwXyZAbCdEfGhIjKlMnOpQrS/preview"
+            },
+            "5": {
+                "Mathematics": "https://drive.google.com/file/d/1OpQrStUvWxYzZaBcDeF3gHiJkLmNoPqRs/preview",
+                "Bangla": "https://drive.google.com/file/d/1PqRsTuVwXyZAbCdEfGhIjKlMnOpQrStU/preview",
+                "English": "https://drive.google.com/file/d/1QrStUvWxYzZaBcDeF3gHiJkLmNoPqRsTu/preview",
+                "Science": "https://drive.google.com/file/d/1RsTuVwXyZAbCdEfGhIjKlMnOpQrStUvW/preview",
+                "Social Science": "https://drive.google.com/file/d/1StUvWxYzZaBcDeF3gHiJkLmNoPqRsTuV/preview"
+            },
+            "6": {
+                "Mathematics": "https://drive.google.com/file/d/1TuVwXyZAbCdEfGhIjKlMnOpQrStUvWxY/preview",
+                "Bangla": "https://drive.google.com/file/d/1UvWxYzZaBcDeF3gHiJkLmNoPqRsTuVwXy/preview",
+                "English": "https://drive.google.com/file/d/1VwXyZAbCdEfGhIjKlMnOpQrStUvWxYzZ/preview",
+                "Science": "https://drive.google.com/file/d/1WxYzZaBcDeF3gHiJkLmNoPqRsTuVwXyZA/preview",
+                "Social Science": "https://drive.google.com/file/d/1XyZAbCdEfGhIjKlMnOpQrStUvWxYzZa/preview",
+                "ICT": "https://drive.google.com/file/d/1YzZaBcDeF3gHiJkLmNoPqRsTuVwXyZAbC/preview"
+            },
+            "7": {
+                "Mathematics": "https://drive.google.com/file/d/1ZaBcDeF3gHiJkLmNoPqRsTuVwXyZAbCd/preview",
+                "Bangla": "https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQrStUvWxYzZaBcDe/preview",
+                "English": "https://drive.google.com/file/d/1BcDeF3gHiJkLmNoPqRsTuVwXyZAbCdEf/preview",
+                "Science": "https://drive.google.com/file/d/1CdEfGhIjKlMnOpQrStUvWxYzZaBcDeF3/preview",
+                "Social Science": "https://drive.google.com/file/d/1DeF3gHiJkLmNoPqRsTuVwXyZAbCdEfG/preview",
+                "ICT": "https://drive.google.com/file/d/1EfGhIjKlMnOpQrStUvWxYzZaBcDeF3gH/preview"
+            },
+            "8": {
+                "Mathematics": "https://drive.google.com/file/d/1FgHiJkLmNoPqRsTuVwXyZAbCdEfGhIjK/preview",
+                "Bangla": "https://drive.google.com/file/d/1GhIjKlMnOpQrStUvWxYzZaBcDeF3gHiJ/preview",
+                "English": "https://drive.google.com/file/d/1HiJkLmNoPqRsTuVwXyZAbCdEfGhIjKlM/preview",
+                "Science": "https://drive.google.com/file/d/1IjKlMnOpQrStUvWxYzZaBcDeF3gHiJkL/preview",
+                "Social Science": "https://drive.google.com/file/d/1JkLmNoPqRsTuVwXyZAbCdEfGhIjKlMn/preview",
+                "ICT": "https://drive.google.com/file/d/1KlMnOpQrStUvWxYzZaBcDeF3gHiJkLmN/preview"
+            },
+            "9": {
+                "Mathematics": "https://drive.google.com/file/d/1LmNoPqRsTuVwXyZAbCdEfGhIjKlMnOp/preview",
+                "Bangla": "https://drive.google.com/file/d/1MnOpQrStUvWxYzZaBcDeF3gHiJkLmNo/preview",
+                "English": "https://drive.google.com/file/d/1NoPqRsTuVwXyZAbCdEfGhIjKlMnOpQ/preview",
+                "Science": "https://drive.google.com/file/d/1OpQrStUvWxYzZaBcDeF3gHiJkLmNoPq/preview",
+                "Social Science": "https://drive.google.com/file/d/1PqRsTuVwXyZAbCdEfGhIjKlMnOpQr/preview",
+                "ICT": "https://drive.google.com/file/d/1QrStUvWxYzZaBcDeF3gHiJkLmNoPqRs/preview"
+            },
+            "10": {
+                "Mathematics": "https://drive.google.com/file/d/1RsTuVwXyZAbCdEfGhIjKlMnOpQrStUv/preview",
+                "Bangla": "https://drive.google.com/file/d/1StUvWxYzZaBcDeF3gHiJkLmNoPqRsTu/preview",
+                "English": "https://drive.google.com/file/d/1TuVwXyZAbCdEfGhIjKlMnOpQrStUvW/preview",
+                "Science": "https://drive.google.com/file/d/1UvWxYzZaBcDeF3gHiJkLmNoPqRsTuVwX/preview",
+                "Social Science": "https://drive.google.com/file/d/1VwXyZAbCdEfGhIjKlMnOpQrStUvWxY/preview",
+                "ICT": "https://drive.google.com/file/d/1WxYzZaBcDeF3gHiJkLmNoPqRsTuVwXyZ/preview"
+            }
+        };
+
+        // Direct PDF links
+        const directPDFUrls = {
+            "9_Mathematics": "https://nctb.gov.bd/site/files/9-math.pdf",
+            "9_Science": "https://nctb.gov.bd/site/files/9-science.pdf",
+            "10_Mathematics": "https://nctb.gov.bd/site/files/10-math.pdf",
+            "10_Science": "https://nctb.gov.bd/site/files/10-science.pdf"
+        };
+
+        // ============ STUDY CONTENT DATABASE ============
+        const studyContent = {
+            "Mathematics": {
+                "chapter_notes": `
+                    <h1 class="chapter-title">Chapter 1: Real Numbers</h1>
+                    <div class="section">
+                        <h2 class="section-title">1.1 Introduction to Real Numbers</h2>
+                        <p class="content-text">Real numbers include all the numbers that can be found on the number line. This includes both rational and irrational numbers.</p>
+                        <div class="important">
+                            <div class="important-title">💡 Key Concept</div>
+                            <p>Real Numbers = Rational Numbers + Irrational Numbers</p>
+                        </div>
+                    </div>
+                `,
+                "formulas": `
+                    <h1 class="chapter-title">Important Mathematics Formulas</h1>
+                    <div class="section">
+                        <h2 class="section-title">Algebra Formulas</h2>
+                        <div class="formula">(a + b)² = a² + 2ab + b²</div>
+                        <div class="formula">(a - b)² = a² - 2ab + b²</div>
+                        <div class="formula">a² - b² = (a + b)(a - b)</div>
+                    </div>
+                `,
+                "practice_questions": `
+                    <h1 class="chapter-title">Practice Questions - Real Numbers</h1>
+                    <div class="question">
+                        <div class="question-text">Q1. Prove that √2 is an irrational number.</div>
+                        <div class="solution">
+                            <strong>Solution:</strong><br>
+                            Assume √2 is rational. Then √2 = p/q where p and q are coprime integers...
+                        </div>
+                    </div>
+                `,
+                "live_experiments": `
+                    <h1 class="chapter-title">🔬 Live Science Experiments</h1>
+                    <div class="section">
+                        <h2 class="section-title">Interactive Learning Lab</h2>
+                        <p class="content-text">Choose an experiment below to explore scientific concepts through interactive simulations.</p>
+                        <div id="experimentsList">
+                            <div class="loading">Loading experiments for your class...</div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="important">
+                            <div class="important-title">💡 How to Use These Experiments</div>
+                            <p>• <strong>Change variables</strong> to see how they affect the outcome</p>
+                            <p>• <strong>Make predictions</strong> before running each experiment</p>
+                            <p>• <strong>Record your observations</strong> in a notebook</p>
+                            <p>• <strong>Relate</strong> what you see to your textbook concepts</p>
+                        </div>
+                    </div>
+                `
+            },
+            "Science": {
+                "chapter_notes": `
+                    <h1 class="chapter-title">Chapter 1: Matter in Our Surroundings</h1>
+                    <div class="section">
+                        <h2 class="section-title">1.1 States of Matter</h2>
+                        <p class="content-text">Matter exists in three main states: Solid, Liquid, and Gas.</p>
+                    </div>
+                `,
+                "live_experiments": `
+                    <h1 class="chapter-title">🔬 Live Science Experiments</h1>
+                    <div class="section">
+                        <h2 class="section-title">Interactive Learning Lab</h2>
+                        <p class="content-text">Choose an experiment below to explore scientific concepts through interactive simulations.</p>
+                        <div id="experimentsList">
+                            <div class="loading">Loading experiments for your class...</div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="important">
+                            <div class="important-title">💡 How to Use These Experiments</div>
+                            <p>• <strong>Change variables</strong> to see how they affect the outcome</p>
+                            <p>• <strong>Make predictions</strong> before running each experiment</p>
+                            <p>• <strong>Record your observations</strong> in a notebook</p>
+                            <p>• <strong>Relate</strong> what you see to your textbook concepts</p>
+                        </div>
+                    </div>
+                `
+            },
+            "default": `
+                <h1 class="chapter-title">Study Materials</h1>
+                <div class="section">
+                    <h2 class="section-title">Content Coming Soon</h2>
+                    <p class="content-text">We're working hard to create quality study materials for this subject. Please check back later!</p>
+                </div>
+            `
+        };
+
+        // ============ EXPERIMENTS DATABASE ============
+        const experimentsDatabase = {
+            "Science": {
+                "9": {
+                    "Electricity": [
+                        {
+                            id: "ohms_law",
+                            title: "Ohm's Law Circuit",
+                            description: "Explore the relationship between Voltage, Current, and Resistance",
+                            icon: "⚡",
+                            chapter: "Chapter 12: Electricity",
+                            html: `
+                                <div class="experiment-container" style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin: 2rem 0;">
+                                    <!-- Circuit Diagram -->
+                                    <div class="circuit-diagram" style="text-align: center; margin-bottom: 2rem;">
+                                        <div style="font-family: monospace; font-size: 1.2rem; line-height: 2; background: white; padding: 1rem; border-radius: 8px;">
+                                            <div>+ --- [Battery: <span id="voltageValue">9</span>V] --- [Switch] --- [Resistor: <span id="resistanceValue">100</span>Ω] --- -</div>
+                                            <div style="margin-left: 100px;">|</div>
+                                            <div style="margin-left: 100px;">[Ammeter: <span id="currentValue">0.09</span>A]</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Controls and Results Grid -->
+                                    <div class="experiment-controls" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                                        <!-- Controls Panel -->
+                                        <div class="control-panel">
+                                            <h4 style="color: #667eea; margin-bottom: 1rem;">⚡ Circuit Controls</h4>
+                                            
+                                            <!-- Voltage Control -->
+                                            <div class="control-group" style="margin-bottom: 1.5rem;">
+                                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                                    🔋 Battery Voltage: <span id="voltageDisplay">9</span>V
+                                                </label>
+                                                <input type="range" id="voltageSlider" min="1" max="12" value="9" step="1" style="width: 100%;">
+                                            </div>
+
+                                            <!-- Resistance Control -->
+                                            <div class="control-group" style="margin-bottom: 1.5rem;">
+                                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                                    🔌 Resistance: <span id="resistanceDisplay">100</span>Ω
+                                                </label>
+                                                <input type="range" id="resistanceSlider" min="10" max="1000" value="100" step="10" style="width: 100%;">
+                                            </div>
+
+                                            <!-- Switch Control -->
+                                            <div class="control-group">
+                                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                                    🔘 Circuit Switch
+                                                </label>
+                                                <button id="toggleSwitch" style="background: #48bb78; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; width: 100%;">
+                                                    🔛 SWITCH ON
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Results Panel -->
+                                        <div class="results-panel" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                            <h4 style="color: #667eea; margin-bottom: 1rem;">📊 Live Measurements</h4>
+                                            
+                                            <div class="measurement" style="margin-bottom: 1rem;">
+                                                <div style="font-weight: 600; color: #e53e3e;">Voltage (V)</div>
+                                                <div style="font-size: 1.3rem; font-weight: 700;" id="liveVoltage">9 V</div>
+                                            </div>
+                                            
+                                            <div class="measurement" style="margin-bottom: 1rem;">
+                                                <div style="font-weight: 600; color: #3182ce;">Current (I)</div>
+                                                <div style="font-size: 1.3rem; font-weight: 700;" id="liveCurrent">0.09 A</div>
+                                            </div>
+                                            
+                                            <div class="measurement" style="margin-bottom: 1.5rem;">
+                                                <div style="font-weight: 600; color: #38a169;">Resistance (R)</div>
+                                                <div style="font-size: 1.3rem; font-weight: 700;" id="liveResistance">100 Ω</div>
+                                            </div>
+
+                                            <!-- Ohm's Law Display -->
+                                            <div class="formula-display" style="background: #f7fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                <div style="font-weight: 600; margin-bottom: 0.5rem;">Ohm's Law Formula:</div>
+                                                <div style="font-family: 'Cambria Math', serif; font-size: 1.1rem;">
+                                                    V = I × R &nbsp;&nbsp; → &nbsp;&nbsp; 
+                                                    <span id="voltageFormula">9</span> = 
+                                                    <span id="currentFormula">0.09</span> × 
+                                                    <span id="resistanceFormula">100</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Visual Feedback -->
+                                    <div class="circuit-visual" style="text-align: center; margin: 2rem 0;">
+                                        <div style="display: inline-block; padding: 1rem 2rem; background: #2d3748; color: white; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;" id="bulbIndicator">
+                                            💡 Bulb: OFF
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Educational Content -->
+                                <div class="educational-content">
+                                    <h4 style="color: #2d3748; margin-bottom: 1rem;">🎓 Learning Objectives</h4>
+                                    
+                                    <div class="important">
+                                        <div class="important-title">⚡ Ohm's Law (V = I × R)</div>
+                                        <p>This experiment helps you understand:</p>
+                                        <p>• How voltage, current, and resistance are related</p>
+                                        <p>• What happens when you change one variable while keeping others constant</p>
+                                        <p>• Why circuit components behave the way they do</p>
+                                    </div>
+
+                                    <div class="example">
+                                        <div class="example-title">🔍 Real-world Applications</div>
+                                        <p>• <strong>Household wiring</strong> - why thick wires are used for high current</p>
+                                        <p>• <strong>Electronic devices</strong> - how resistors protect components</p>
+                                        <p>• <strong>Power transmission</strong> - why high voltage is used for long distances</p>
+                                    </div>
+                                </div>
+                            `
+                        }
+                    ]
+                }
+            }
+        };
+
+        // ============ CORE FUNCTIONS ============
+        let currentPdfUrl = '';
+        let currentZoom = 1.0;
+
+        // Load content when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadContent();
+        });
+
+        function loadContent() {
+            const selectedClass = localStorage.getItem('selectedClass');
+            const selectedSubject = localStorage.getItem('selectedSubject');
+            const materialType = localStorage.getItem('selectedMaterialType');
+            const materialTitle = localStorage.getItem('selectedMaterialTitle');
+
+            console.log('Loading content for:', { selectedClass, selectedSubject, materialType });
+
+            // Update page headers
+            document.getElementById('classSubjectInfo').textContent = `Class ${selectedClass} - ${selectedSubject}`;
+            document.getElementById('materialTitleInfo').textContent = materialTitle;
+
+            // Check what type of content to show
+            if (materialType === 'nctb_textbook') {
+                showNCTBTextbook(selectedClass, selectedSubject, materialTitle);
+            } else if (materialType === 'live_experiments') {
+                showStudyContent(selectedClass, selectedSubject, materialType, materialTitle);
+                setTimeout(loadExperiments, 100);
+            } else {
+                showStudyContent(selectedClass, selectedSubject, materialType, materialTitle);
+            }
+        }
+
+        function showNCTBTextbook(classNum, subject, title) {
+            // Show PDF viewer elements
+            document.getElementById('pdfToolbar').style.display = 'block';
+            document.getElementById('pdfViewerContainer').style.display = 'block';
+            document.getElementById('studyContentContainer').style.display = 'none';
+            
+            // Update footer
+            document.getElementById('footerNote').innerHTML = '<small>Official NCTB textbook embedded for educational purposes</small>';
+
+            // Get PDF URL
+            const pdfKey = `${classNum}_${subject}`;
+            
+            if (directPDFUrls[pdfKey]) {
+                // Use direct PDF URL if available
+                currentPdfUrl = directPDFUrls[pdfKey];
+                displayPDF(currentPdfUrl);
+            } else if (nctbBooks[classNum] && nctbBooks[classNum][subject]) {
+                // Use NCTB page URL
+                currentPdfUrl = nctbBooks[classNum][subject];
+                showAlternativeMessage(currentPdfUrl);
+            } else {
+                // No textbook available
+                showNoBookMessage();
+            }
+        }
+
+        function showStudyContent(classNum, subject, materialType, materialTitle) {
+            // Show study content and hide PDF viewer
+            document.getElementById('pdfToolbar').style.display = 'none';
+            document.getElementById('pdfViewerContainer').style.display = 'none';
+            document.getElementById('studyContentContainer').style.display = 'block';
+            document.getElementById('alternativeMessage').style.display = 'none';
+
+            // Update footer
+            document.getElementById('footerNote').innerHTML = '<small>Quality study materials created by BookBank</small>';
+
+            // Hide loading message
+            document.getElementById('loadingMessage').style.display = 'none';
+
+            // Load appropriate study content
+            const contentContainer = document.getElementById('studyContentContainer');
+            let contentHTML = studyContent.default;
+
+            if (subject && studyContent[subject]) {
+                if (materialType && studyContent[subject][materialType]) {
+                    contentHTML = studyContent[subject][materialType];
+                } else if (studyContent[subject]['chapter_notes']) {
+                    contentHTML = studyContent[subject]['chapter_notes'];
+                }
+            }
+
+            contentContainer.innerHTML += contentHTML;
+        }
+
+        function displayPDF(pdfUrl) {
+            const pdfViewer = document.getElementById('pdfViewer');
+            const alternativeMessage = document.getElementById('alternativeMessage');
+            
+            // Use Google Docs viewer to embed PDF
+            const embedUrl = `https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
+            
+            pdfViewer.src = embedUrl;
+            pdfViewer.style.display = 'block';
+            alternativeMessage.style.display = 'none';
+
+            // Set direct download link
+            document.getElementById('directDownloadLink').href = pdfUrl;
+            document.getElementById('directDownloadLink').textContent = '📥 Download PDF';
+        }
+
+        function showAlternativeMessage(nctbUrl) {
+            const pdfViewer = document.getElementById('pdfViewer');
+            const alternativeMessage = document.getElementById('alternativeMessage');
+            const selectedSubject = localStorage.getItem('selectedSubject');
+            
+            pdfViewer.style.display = 'none';
+            alternativeMessage.style.display = 'block';
+            
+            document.getElementById('directDownloadLink').href = nctbUrl;
+            document.getElementById('directDownloadLink').textContent = `📖 Read ${selectedSubject} Book`;
+            
+            // Also update the message title and text for better context
+            const messageTitle = alternativeMessage.querySelector('h3');
+            const messageText = alternativeMessage.querySelector('p');
+            
+            if (messageTitle) {
+                messageTitle.textContent = `📖 ${selectedSubject} Textbook`;
+            }
+            if (messageText) {
+                messageText.textContent = `Click below to read the official ${selectedSubject} textbook from NCTB:`;
+            }
+        }
+
+        function showNoBookMessage() {
+            const selectedSubject = localStorage.getItem('selectedSubject');
+            const alternativeMessage = document.getElementById('alternativeMessage');
+            
+            alternativeMessage.style.display = 'block';
+            alternativeMessage.innerHTML = `
+                <h3>📚 ${selectedSubject} Textbook</h3>
+                <p>We're working on adding this textbook. You can access it on the official NCTB website:</p>
+                <a href="https://nctb.gov.bd" class="download-link" id="directDownloadLink" target="_blank">
+                    📖 Read ${selectedSubject} Book on NCTB
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: #718096;">
+                    The textbook will open on the official NCTB website.
+                </p>
+            `;
+        }
+
+        // ============ EXPERIMENT FUNCTIONS ============
+
+        // Dynamic Experiments Loader
+        function loadExperiments() {
+            const selectedClass = localStorage.getItem('selectedClass');
+            const selectedSubject = localStorage.getItem('selectedSubject');
+            const experimentsList = document.getElementById('experimentsList');
+            
+            if (!experimentsList) return;
+            
+            // Clear loading message
+            experimentsList.innerHTML = '';
+            
+            // Get experiments for this class and subject
+            const classExperiments = experimentsDatabase[selectedSubject] && experimentsDatabase[selectedSubject][selectedClass];
+            
+            if (!classExperiments || Object.keys(classExperiments).length === 0) {
+                experimentsList.innerHTML = `
+                    <div class="alternative-message" style="display: block; text-align: center;">
+                        <h3>🔬 Experiments Coming Soon!</h3>
+                        <p>We're creating interactive experiments for ${selectedSubject} Class ${selectedClass}.</p>
+                        <p>Check back soon for amazing learning experiences!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Create experiment cards for each chapter
+            let experimentsHTML = '';
+            
+            Object.keys(classExperiments).forEach(chapter => {
+                const chapterExperiments = classExperiments[chapter];
+                
+                experimentsHTML += `
+                    <div class="chapter-section" style="margin-bottom: 3rem;">
+                        <h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+                            📚 ${chapter}
+                        </h3>
+                        <div class="experiments-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                `;
+                
+                chapterExperiments.forEach(experiment => {
+                    experimentsHTML += `
+                        <div class="experiment-card" onclick="loadExperiment('${selectedClass}', '${selectedSubject}', '${chapter}', '${experiment.id}')">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                                <span style="font-size: 2rem;">${experiment.icon}</span>
+                                <div>
+                                    <h4 style="margin: 0; color: #2d3748;">${experiment.title}</h4>
+                                    <small style="color: #718096;">${experiment.chapter}</small>
+                                </div>
+                            </div>
+                            <p style="color: #718096; margin: 0; line-height: 1.5;">${experiment.description}</p>
+                            <div style="margin-top: 1rem; text-align: right;">
+                                <button style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                                    🔬 Start Experiment
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                experimentsHTML += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            experimentsList.innerHTML = experimentsHTML;
+        }
+
+        // Load specific experiment
+        function loadExperiment(classNum, subject, chapter, experimentId) {
+            const experiment = experimentsDatabase[subject][classNum][chapter].find(exp => exp.id === experimentId);
+            
+            if (experiment) {
+                document.getElementById('experimentsList').innerHTML = `
+                    <div style="margin-bottom: 2rem;">
+                        <button onclick="loadExperiments()" style="background: #718096; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-bottom: 1rem;">
+                            ← Back to Experiments
+                        </button>
+                        <h3 style="color: #2d3748; margin-bottom: 0.5rem;">${experiment.icon} ${experiment.title}</h3>
+                        <p style="color: #718096; margin-bottom: 1rem;">${experiment.chapter}</p>
+                    </div>
+                    ${experiment.html}
+                `;
+                
+                // Initialize experiment-specific JavaScript
+                if (experimentId === 'ohms_law') {
+                    setTimeout(initializeCircuitExperiment, 100);
+                }
+            }
+        }
+
+        // Circuit Experiment JavaScript
+        function initializeCircuitExperiment() {
+            const voltageSlider = document.getElementById('voltageSlider');
+            const resistanceSlider = document.getElementById('resistanceSlider');
+            const toggleSwitch = document.getElementById('toggleSwitch');
+            
+            let isCircuitOn = true;
+
+            function updateCircuit() {
+                const voltage = parseInt(voltageSlider.value);
+                const resistance = parseInt(resistanceSlider.value);
+                
+                // Calculate current using Ohm's Law: I = V / R
+                const current = resistance > 0 ? (voltage / resistance).toFixed(3) : 0;
+                
+                // Update displays
+                document.getElementById('voltageValue').textContent = voltage;
+                document.getElementById('resistanceValue').textContent = resistance;
+                document.getElementById('currentValue').textContent = current;
+                
+                document.getElementById('voltageDisplay').textContent = voltage;
+                document.getElementById('resistanceDisplay').textContent = resistance;
+                
+                document.getElementById('liveVoltage').textContent = voltage + ' V';
+                document.getElementById('liveCurrent').textContent = current + ' A';
+                document.getElementById('liveResistance').textContent = resistance + ' Ω';
+                
+                document.getElementById('voltageFormula').textContent = voltage;
+                document.getElementById('currentFormula').textContent = current;
+                document.getElementById('resistanceFormula').textContent = resistance;
+                
+                // Update bulb brightness based on current
+                const bulbIndicator = document.getElementById('bulbIndicator');
+                const currentNum = parseFloat(current);
+                
+                if (!isCircuitOn) {
+                    bulbIndicator.textContent = '💡 Bulb: OFF';
+                    bulbIndicator.style.background = '#2d3748';
+                    bulbIndicator.style.color = 'white';
+                } else if (currentNum < 0.05) {
+                    bulbIndicator.textContent = '💡 Bulb: DIM';
+                    bulbIndicator.style.background = '#f6e05e';
+                    bulbIndicator.style.color = '#744210';
+                } else if (currentNum < 0.1) {
+                    bulbIndicator.textContent = '💡 Bulb: BRIGHT';
+                    bulbIndicator.style.background = '#faf089';
+                    bulbIndicator.style.color = '#744210';
+                } else {
+                    bulbIndicator.textContent = '💡 Bulb: VERY BRIGHT!';
+                    bulbIndicator.style.background = '#fefcbf';
+                    bulbIndicator.style.color = '#744210';
+                }
+            }
+
+            // Event listeners
+            voltageSlider.addEventListener('input', updateCircuit);
+            resistanceSlider.addEventListener('input', updateCircuit);
+            
+            toggleSwitch.addEventListener('click', function() {
+                isCircuitOn = !isCircuitOn;
+                if (isCircuitOn) {
+                    this.textContent = '🔛 SWITCH ON';
+                    this.style.background = '#48bb78';
+                } else {
+                    this.textContent = '🔴 SWITCH OFF';
+                    this.style.background = '#e53e3e';
+                }
+                updateCircuit();
+            });
+
+            // Initialize circuit
+            updateCircuit();
+        }
+
+        // ============ PDF CONTROL FUNCTIONS ============
+        function openInNewTab() {
+            if (currentPdfUrl) {
+                window.open(currentPdfUrl, '_blank');
+            }
+        }
+
+        function downloadPDF() {
+            if (currentPdfUrl) {
+                window.open(currentPdfUrl, '_blank');
+            } else {
+                alert('Download link not available. Please visit the NCTB website.');
+            }
+        }
+
+        function toggleFullscreen() {
+            const pdfViewer = document.getElementById('pdfViewer');
+            if (!document.fullscreenElement) {
+                pdfViewer.requestFullscreen().catch(err => {
+                    alert(`Error enabling fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function zoomIn() {
+            currentZoom += 0.1;
+            updateZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(0.5, currentZoom - 0.1);
+            updateZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1.0;
+            updateZoom();
+        }
+
+        function updateZoom() {
+            const pdfViewer = document.getElementById('pdfViewer');
+            pdfViewer.style.transform = `scale(${currentZoom})`;
+            pdfViewer.style.transformOrigin = 'center center';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Materials - BookBank</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+        }
+
+        .brand-name {
+            color: #4a5568;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .page-info {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .class-subject {
+            color: #667eea;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .materials-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .materials-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .materials-header h2 {
+            color: #2d3748;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 2rem;
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+            cursor: pointer;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .material-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .material-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .material-desc {
+            color: #718096;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .view-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Material Type Colors */
+        .material-card[data-type="nctb_textbook"] {
+            border-left-color: #667eea;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+
+        .material-card[data-type="chapter_notes"] {
+            border-left-color: #FF6B6B;
+        }
+
+        .material-card[data-type="formulas"] {
+            border-left-color: #4ECDC4;
+        }
+
+        .material-card[data-type="practice_questions"] {
+            border-left-color: #45B7D1;
+        }
+
+        .material-card[data-type="worksheets"] {
+            border-left-color: #96CEB4;
+        }
+
+        .material-card[data-type="sample_papers"] {
+            border-left-color: #FECA57;
+        }
+
+        .material-card[data-type="quick_revision"] {
+            border-left-color: #FF9FF3;
+        }
+
+        .material-card[data-type="diagrams"] {
+            border-left-color: #54A0FF;
+        }
+
+        .material-card[data-type="grammar"] {
+            border-left-color: #1DD1A1;
+        }
+
+        .material-card[data-type="vocabulary"] {
+            border-left-color: #FF9F43;
+        }
+
+        .material-card[data-type="writing_skills"] {
+            border-left-color: #6c5ce7;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .material-card {
+                padding: 1.5rem;
+            }
+            
+            .materials-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .materials-container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .material-card {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-header">
+                <a href="subjects.html" class="back-btn">← Back to Subjects</a>
+                <div class="logo-section">
+                    <div class="logo">📚</div>
+                    <h1 class="brand-name">BookBank</h1>
+                </div>
+                <div style="width: 100px;"></div> <!-- Spacer for balance -->
+            </div>
+            <div class="page-info">
+                <div class="class-subject" id="classSubjectInfo">Loading...</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="materials-container">
+                <div class="materials-header">
+                    <h2>Study Materials</h2>
+                    <p class="subtitle">Choose what you want to study</p>
+                </div>
+                
+                <div class="materials-grid" id="materialsGrid">
+                    <!-- Materials will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 BookBank. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Study materials data structure with NCTB Textbook as first option
+        const materialsData = {
+            "Mathematics": [
+                {
+                    type: "nctb_textbook",
+                    title: "NCTB Textbook",
+                    icon: "📚",
+                    description: "Official NCTB Mathematics textbook. Read online or download the PDF.",
+                    color: "#667eea"
+                },
+                {
+                    type: "chapter_notes",
+                    title: "Chapter Notes",
+                    icon: "📝",
+                    description: "Detailed chapter-wise notes with explanations and solved examples. Perfect for understanding concepts.",
+                    color: "#FF6B6B"
+                },
+                {
+                    type: "formulas",
+                    title: "Formulas & Concepts",
+                    icon: "📊",
+                    description: "Important formulas, theorems, and key concepts for quick revision. Essential for exams.",
+                    color: "#4ECDC4"
+                },
+                {
+                    type: "practice_questions",
+                    title: "Practice Questions",
+                    icon: "✏️",
+                    description: "Solved examples and practice problems with step-by-step solutions. Build your problem-solving skills.",
+                    color: "#45B7D1"
+                },
+                {
+                    type: "worksheets",
+                    title: "Practice Worksheets",
+                    icon: "📄",
+                    description: "Printable worksheets for additional practice. Test your understanding with various question types.",
+                    color: "#96CEB4"
+                },
+                {
+                    type: "sample_papers",
+                    title: "Sample Papers",
+                    icon: "📑",
+                    description: "Original sample question papers for exam preparation. Practice with exam-style questions.",
+                    color: "#FECA57"
+                },
+                {
+                    type: "quick_revision",
+                    title: "Quick Revision",
+                    icon: "⚡",
+                    description: "One-page summaries for last-minute revision. Key points and important formulas at a glance.",
+                    color: "#FF9FF3"
+                }
+            ],
+            "Science": [
+                {
+                    type: "nctb_textbook",
+                    title: "NCTB Textbook",
+                    icon: "📚",
+                    description: "Official NCTB Science textbook. Read online or download the PDF.",
+                    color: "#667eea"
+                },
+                {
+                    type: "live_experiments",
+                    title: "Live Experiments", 
+                    icon: "🔬",
+                    description: "Interactive science experiments. Build circuits, see physics in action!",
+                    color: "#FF6B6B"
+                 },
+                {
+                    type: "chapter_notes",
+                    title: "Chapter Notes",
+                    icon: "📝",
+                    description: "Detailed explanations of scientific concepts and principles with real-life examples.",
+                    color: "#FF6B6B"
+                },
+                {
+                    type: "diagrams",
+                    title: "Diagrams & Charts",
+                    icon: "🔬",
+                    description: "Important diagrams, flowcharts, and scientific illustrations with proper labeling.",
+                    color: "#4ECDC4"
+                },
+                {
+                    type: "formulas",
+                    title: "Formulas & Laws",
+                    icon: "⚛️",
+                    description: "Scientific formulas, laws, and fundamental principles with applications.",
+                    color: "#45B7D1"
+                },
+                {
+                    type: "practice_questions",
+                    title: "Practice Questions",
+                    icon: "✏️",
+                    description: "Conceptual questions and numerical problems with detailed solutions.",
+                    color: "#96CEB4"
+                },
+                {
+                    type: "worksheets",
+                    title: "Lab Worksheets",
+                    icon: "🧪",
+                    description: "Step-by-step guides for laboratory experiments and observations.",
+                    color: "#FECA57"
+                },
+                {
+                    type: "quick_revision",
+                    title: "Quick Revision",
+                    icon: "⚡",
+                    description: "Key points, definitions, and important concepts for quick review before exams.",
+                    color: "#FF9FF3"
+                }
+            ],
+            "English": [
+                {
+                    type: "nctb_textbook",
+                    title: "NCTB Textbook",
+                    icon: "📚",
+                    description: "Official NCTB English textbook. Read online or download the PDF.",
+                    color: "#667eea"
+                },
+                {
+                    type: "grammar",
+                    title: "Grammar Rules",
+                    icon: "🔤",
+                    description: "Complete English grammar rules with examples and usage. Master tenses, prepositions, and more.",
+                    color: "#FF6B6B"
+                },
+                {
+                    type: "vocabulary",
+                    title: "Vocabulary Builder",
+                    icon: "📖",
+                    description: "Important words, phrases, idioms and their usage. Expand your English vocabulary.",
+                    color: "#4ECDC4"
+                },
+                {
+                    type: "writing_skills",
+                    title: "Writing Skills",
+                    icon: "✍️",
+                    description: "Essay writing, letter writing, and creative writing tips with sample formats.",
+                    color: "#45B7D1"
+                },
+                {
+                    type: "practice_questions",
+                    title: "Comprehension",
+                    icon: "📚",
+                    description: "Reading comprehension passages and exercises with answers.",
+                    color: "#96CEB4"
+                },
+                {
+                    type: "sample_papers",
+                    title: "Sample Answers",
+                    icon: "📑",
+                    description: "Model answers for literature questions and writing tasks.",
+                    color: "#FECA57"
+                },
+                {
+                    type: "quick_revision",
+                    title: "Quick Revision",
+                    icon: "⚡",
+                    description: "Grammar rules, writing formats, and important tips for quick revision.",
+                    color: "#FF9FF3"
+                }
+            ],
+            "Bangla": [
+                {
+                    type: "nctb_textbook",
+                    title: "এনসিটিবি বই",
+                    icon: "📚",
+                    description: "সরকারী বাংলা পাঠ্যপুস্তক। অনলাইনে পড়ুন বা পিডিএফ ডাউনলোড করুন।",
+                    color: "#667eea"
+                },
+                {
+                    type: "grammar",
+                    title: "ব্যাকরণ",
+                    icon: "🔤",
+                    description: "বাংলা ব্যাকরণের সম্পূর্ণ নিয়ম এবং উদাহরণ। কারক, বিভক্তি, সমাস এবং আরও অনেক কিছু।",
+                    color: "#FF6B6B"
+                },
+                {
+                    type: "vocabulary",
+                    title: "শব্দভাণ্ডার",
+                    icon: "📖",
+                    description: "গুরুত্বপূর্ণ শব্দ, বাক্য, প্রবাদ-প্রবচন এবং তাদের ব্যবহার। বাংলা শব্দভাণ্ডার সমৃদ্ধ করুন।",
+                    color: "#4ECDC4"
+                },
+                {
+                    type: "writing_skills",
+                    title: "লেখার দক্ষতা",
+                    icon: "✍️",
+                    description: "রচনা লেখা, চিঠি লেখা এবং সৃজনশীল লেখার টিপস সাথে নমুনা ফরম্যাট।",
+                    color: "#45B7D1"
+                },
+                {
+                    type: "practice_questions",
+                    title: "বোঝাপড়া",
+                    icon: "📚",
+                    description: "অনুশীলন প্যাসেজ এবং বোঝার অনুশীলন সাথে উত্তর।",
+                    color: "#96CEB4"
+                },
+                {
+                    type: "sample_papers",
+                    title: "নমুনা উত্তর",
+                    icon: "📑",
+                    description: "সাহিত্য প্রশ্ন এবং লেখার কাজের জন্য মডেল উত্তর।",
+                    color: "#FECA57"
+                }
+            ],
+            "Physics": [
+                {
+                    type: "nctb_textbook",
+                    title: "NCTB Textbook",
+                    icon: "📚",
+                    description: "Official NCTB Physics textbook. Read online or download the PDF.",
+                    color: "#667eea"
+                },
+                {
+                    type: "chapter_notes",
+                    title: "Chapter Notes",
+                    icon: "📝",
+                    description: "Detailed explanations of physics concepts, laws, and principles with real-world applications.",
+                    color: "#FF6B6B"
+                },
+                {
+                    type: "formulas",
+                    title: "Physics Formulas",
+                    icon: "⚛️",
+                    description: "Important physics formulas, laws, and derivations with applications and examples.",
+                    color: "#4ECDC4"
+                },
+                {
+                    type: "diagrams",
+                    title: "Diagrams & Circuits",
+                    icon: "🔌",
+                    description: "Circuit diagrams, ray diagrams, and important physics illustrations with explanations.",
+                    color: "#45B7D1"
+                },
+                {
+                    type: "practice_questions",
+                    title: "Numerical Problems",
+                    icon: "✏️",
+                    description: "Solved numerical problems and practice questions with step-by-step solutions.",
+                    color: "#96CEB4"
+                }
+            ],
+            "Chemistry": [
+                {
+                    type: "nctb_textbook",
+                    title: "NCTB Textbook",
+                    icon: "📚",
+                    description: "Official NCTB Chemistry textbook. Read online or download the PDF.",
+                    color: "#667eea"
+                },
+                {
+                    type: "chapter_notes",
+                    title: "Chapter Notes",
+                    icon: "📝",
+                    description: "Chemical reactions, equations, and concepts explained with examples and applications.",
+                    color: "#FF6B6B"
+                },
+                {
+                    type: "formulas",
+                    title: "Chemical Formulas",
+                    icon: "🧪",
+                    description: "Important chemical formulas, equations, and reactions with balancing techniques.",
+                    color: "#4ECDC4"
+                },
+                {
+                    type: "diagrams",
+                    title: "Structures & Apparatus",
+                    icon: "🔍",
+                    description: "Molecular structures, laboratory apparatus, and chemical process diagrams.",
+                    color: "#45B7D1"
+                },
+                {
+                    type: "practice_questions",
+                    title: "Practice Problems",
+                    icon: "✏️",
+                    description: "Chemical equations, numerical problems, and conceptual questions with solutions.",
+                    color: "#96CEB4"
+                }
+            ]
+        };
+
+        // Default materials for subjects not specified
+        const defaultMaterials = [
+            {
+                type: "nctb_textbook",
+                title: "NCTB Textbook",
+                icon: "📚",
+                description: "Official textbook from NCTB. Read online or download.",
+                color: "#667eea"
+            },
+            {
+                type: "chapter_notes",
+                title: "Chapter Notes",
+                icon: "📝",
+                description: "Detailed chapter-wise notes with explanations and examples.",
+                color: "#FF6B6B"
+            },
+            {
+                type: "practice_questions",
+                title: "Practice Questions",
+                icon: "✏️",
+                description: "Practice problems and questions with solutions.",
+                color: "#45B7D1"
+            },
+            {
+                type: "quick_revision",
+                title: "Quick Revision",
+                icon: "⚡",
+                description: "Key points and important concepts for quick revision.",
+                color: "#FF9FF3"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedClass = localStorage.getItem('selectedClass');
+            const selectedSubject = localStorage.getItem('selectedSubject');
+            const classSubjectInfo = document.getElementById('classSubjectInfo');
+            const materialsGrid = document.getElementById('materialsGrid');
+
+            if (!selectedClass || !selectedSubject) {
+                // If no class/subject selected, redirect to homepage
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Display class and subject information
+            classSubjectInfo.textContent = `Class ${selectedClass} - ${selectedSubject}`;
+
+            // Load materials for the selected subject
+            const materials = materialsData[selectedSubject] || defaultMaterials;
+            
+            // Create material cards
+            materials.forEach(material => {
+                const materialCard = document.createElement('div');
+                materialCard.className = 'material-card';
+                materialCard.setAttribute('data-type', material.type);
+                materialCard.innerHTML = `
+                    <div class="material-icon">${material.icon}</div>
+                    <h3 class="material-title">${material.title}</h3>
+                    <p class="material-desc">${material.description}</p>
+                    <button class="view-btn" data-type="${material.type}">
+                        View ${material.title}
+                    </button>
+                `;
+                
+                // Add click event to button
+                const viewBtn = materialCard.querySelector('.view-btn');
+                viewBtn.addEventListener('click', function() {
+                    selectMaterial(selectedClass, selectedSubject, material.type, material.title);
+                });
+
+                // Also make the entire card clickable
+                materialCard.addEventListener('click', function(e) {
+                    if (e.target !== viewBtn) {
+                        selectMaterial(selectedClass, selectedSubject, material.type, material.title);
+                    }
+                });
+
+                materialsGrid.appendChild(materialCard);
+            });
+        });
+
+        function selectMaterial(classNum, subject, materialType, materialTitle) {
+            // Store material info
+            localStorage.setItem('selectedMaterialType', materialType);
+            localStorage.setItem('selectedMaterialTitle', materialTitle);
+            
+            // Show loading effect
+            const buttons = document.querySelectorAll('.view-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.textContent = 'Loading...';
+            });
+
+            // Redirect to content page
+            setTimeout(() => {
+                window.location.href = 'content.html';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

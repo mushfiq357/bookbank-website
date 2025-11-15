@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookBank - Your Digital Library</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 3rem;
+        }
+
+        .brand-name {
+            color: #4a5568;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .tagline {
+            color: #718096;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .class-selection {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .class-selection h2 {
+            color: #2d3748;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Dropdown Styles */
+        .dropdown-container {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .class-dropdown {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            color: #4a5568;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a5568' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .class-dropdown:hover {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .class-dropdown:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .class-dropdown option {
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Continue Button */
+        .continue-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .continue-btn:active {
+            transform: translateY(0);
+        }
+
+        .continue-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .brand-name {
+                font-size: 2rem;
+            }
+            
+            .class-selection h2 {
+                font-size: 1.8rem;
+            }
+            
+            .class-selection {
+                padding: 2rem 1.5rem;
+                margin: 0 20px;
+            }
+            
+            .class-dropdown {
+                font-size: 1.1rem;
+                padding: 0.9rem 1.2rem;
+            }
+            
+            .continue-btn {
+                font-size: 1.1rem;
+                padding: 0.9rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .class-selection {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-section">
+                <div class="logo">📚</div>
+                <h1 class="brand-name">BookBank</h1>
+            </div>
+            <p class="tagline">Find all your academic books in one place</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="class-selection">
+                <h2>Select Your Class</h2>
+                <p class="subtitle">Choose your class to browse available books</p>
+                
+                <div class="dropdown-container">
+                    <select class="class-dropdown" id="classDropdown">
+                        <option value="">-- Select Your Class --</option>
+                        <option value="1">Class 1</option>
+                        <option value="2">Class 2</option>
+                        <option value="3">Class 3</option>
+                        <option value="4">Class 4</option>
+                        <option value="5">Class 5</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                    </select>
+                </div>
+                
+                <button class="continue-btn" id="continueBtn" disabled>
+                    Continue to Subjects
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 BookBank. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const classDropdown = document.getElementById('classDropdown');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            // Enable continue button only when a class is selected
+            classDropdown.addEventListener('change', function() {
+                if (this.value) {
+                    continueBtn.disabled = false;
+                } else {
+                    continueBtn.disabled = true;
+                }
+            });
+            
+            // Handle continue button click
+continueBtn.addEventListener('click', function() {
+    if (!classDropdown.value) return;
+    
+    // Show loading state
+    const originalText = continueBtn.textContent;
+    continueBtn.textContent = 'Loading...';
+    continueBtn.disabled = true;
+    
+    // Store selected class and redirect
+    localStorage.setItem('selectedClass', classDropdown.value);
+    
+    // Redirect to subjects page
+    setTimeout(() => {
+        window.location.href = 'subjects.html';
+    }, 500);
+});
+            
+            // Add some interactive effects
+            classDropdown.addEventListener('focus', function() {
+                this.style.borderColor = '#667eea';
+                this.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.2)';
+            });
+            
+            classDropdown.addEventListener('blur', function() {
+                this.style.borderColor = '#e2e8f0';
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
